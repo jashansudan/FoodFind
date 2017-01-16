@@ -3,7 +3,20 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
+var Yelp = require('yelp');
 const app = express()
+
+const yelpTokenSecret = process.env.YELP_TOKEN_SECRET
+const yelpConsumerSecret = process.env.YELP_CONSUMER_SECRET
+const facebookToken = process.env.FB_PAGE_ACCESS_TOKEN
+
+//Yelp
+var yelp = new Yelp({
+  consumer_key: 'lmvYf_wcObbJ6bosEYA9YA',
+  consumer_secret: yelpConsumerSecret,
+  token: '34BLHswkjwuf5ZV1FVEcC3PtvUsY8Y9u',
+  token_secret: yelpTokenSecret,
+});
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -39,20 +52,24 @@ app.post('/webhook/', function (req, res) {
         let sender = event.sender.id
         if (event.message && event.message.text) {
             let text = event.message.text
-            sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+            sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200) + yelp.search({ term: 'food', location: 'Montreal' })
+.then(function (data) {
+  console.log(data);
+})
+.catch(function (err) {
+  console.error(err);
+});)
         }
     }
     res.sendStatus(200)
 })
-
-const token = process.env.FB_PAGE_ACCESS_TOKEN
 
 // Echo back messages
 function sendTextMessage(sender, text) {
     let messageData = { text:text }
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token:token},
+        qs: {access_token:facebookToken},
         method: 'POST',
         json: {
             recipient: {id:sender},
@@ -66,6 +83,12 @@ function sendTextMessage(sender, text) {
         }
     })
 }
+
+
+
+
+
+
 
 
 
