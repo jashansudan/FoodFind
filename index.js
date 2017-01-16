@@ -79,15 +79,19 @@ function sendTextMessage(sender, text) {
 }
 
 function testSearch(){
-	yelp.search({ term: 'food', location: 'Montreal' })
-	.then(function (data) {
-  console.log(data);
-  return data;
-	})
-	.catch(function (err) {
-  console.error(err);
-  return err
-	});
+	test('yelp search', (t) => {
+  return yelp.search({
+    term: 'food',
+    location: 'Montreal',
+  }).then((data) => {
+    t.equal(typeof data.region, 'object');
+    t.equal(typeof data.total, 'number');
+    t.ok(Array.isArray(data.businesses), 'businesses is array');
+  })
+  .catch((err) => {
+    t.error(err);
+  });
+});
 
 }
 
