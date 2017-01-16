@@ -79,20 +79,7 @@ function sendTextMessage(sender, text) {
 }
 
 function testSearch(){
-	test('yelp search', (t) => {
-  return yelp.search({
-    term: 'food',
-    location: 'Montreal',
-  }).then((data) => {
-    t.equal(typeof data.region, 'object');
-    t.equal(typeof data.total, 'number');
-    t.ok(Array.isArray(data.businesses), 'businesses is array');
-  })
-  .catch((err) => {
-    t.error(err);
-  });
-});
-
+	return yelp.search({ term: 'food', location: 'Montreal' })
 }
 
 
