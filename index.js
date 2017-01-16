@@ -5,7 +5,6 @@ const bodyParser = require('body-parser')
 const request = require('request')
 var Yelp = require('yelp');
 const app = express()
-var merge = require('merge')
 
 const yelpTokenSecret = process.env.YELP_TOKEN_SECRET
 const yelpConsumerSecret = process.env.YELP_CONSUMER_SECRET
@@ -80,7 +79,11 @@ function sendTextMessage(sender, text) {
 }
 
 function testSearch(){
-	return "hello"
+	yelp.search(merge(options, {term:'food', location:'Montreal'}), (data) => {
+  		return data;
+	}, (err) => {
+  		return err;
+});
 }
 
 
