@@ -80,11 +80,7 @@ function sendTextMessage(sender, text) {
 }
 
 function testSearch(){
-	var parameters = {
- 		term: 'food',
-  		location: 'Montreal',
-	};
-	yelp.search(merge(options, parameters), (data) => {
+	yelp.search(merge(options, {term:'food', location:'Montreal'}), (data) => {
   		return data;
 	}, (err) => {
   		return err;
