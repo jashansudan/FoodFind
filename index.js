@@ -82,12 +82,13 @@ function testSearch(){
 	yelp.search({ term: 'food', location: 'Montreal' })
 	.then(function (data) {
   console.log(data);
+  return data;
 	})
 	.catch(function (err) {
   console.error(err);
+  return err
 	});
 
-	return "Success"
 }
 
 
