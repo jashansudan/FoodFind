@@ -52,7 +52,7 @@ app.post('/webhook/', function (req, res) {
         let sender = event.sender.id
         if (event.message && event.message.text) {
             let text = event.message.text
-            sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+            sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200) + testSearch())
         }
     }
     res.sendStatus(200)
@@ -78,8 +78,19 @@ function sendTextMessage(sender, text) {
     })
 }
 
+function testSearch(){
+	yelp.search({ term: 'food', location: 'Montreal' })
+	.then(function (data) {
+  console.log(data);
+	})
+	.catch(function (err) {
+  console.error(err);
+	});
 
-console.log("test")
+	return "Success"
+}
+
+
 
 
 
