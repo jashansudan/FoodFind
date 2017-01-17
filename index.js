@@ -79,7 +79,7 @@ function sendTextMessage(sender, text) {
 }
 
 function testSearch(){
-	console.log(test)
+	console.log("test");
 }
 
 
