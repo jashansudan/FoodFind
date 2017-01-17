@@ -79,13 +79,7 @@ function sendTextMessage(sender, text) {
 }
 
 function testSearch(){
-	yelp.search({ term: 'food', location: 'Montreal' })
-.then(function (data) {
-  return data;
-})
-.catch(function (err) {
-  return err;
-});
+
 }
 
 
