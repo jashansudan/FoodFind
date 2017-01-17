@@ -12,9 +12,9 @@ const facebookToken = process.env.FB_PAGE_ACCESS_TOKEN
 
 //Yelp
 var yelp = new Yelp({
-  consumer_key: 'lmvYf_wcObbJ6bosEYA9YA',
+  consumer_key: 'Qq97hE7r8TaIMbStTIpGpQ',
   consumer_secret: yelpConsumerSecret,
-  token: '34BLHswkjwuf5ZV1FVEcC3PtvUsY8Y9u',
+  token: 'dLTYNnqhPoUVKZdU9vlM9xT78v-Xw-En',
   token_secret: yelpTokenSecret,
 });
 
@@ -79,7 +79,13 @@ function sendTextMessage(sender, text) {
 }
 
 function testSearch(){
-
+	yelp.search({ term: 'food', location: 'Montreal' })
+.then(function (data) {
+  return data;
+})
+.catch(function (err) {
+  return err;
+});
 }
 
 
