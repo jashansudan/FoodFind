@@ -6,9 +6,9 @@ const request = require('request')
 var Yelp = require('yelp');
 const app = express()
 
-const yelpConsumerSecret = process.env.YELP_CONSUMER_SECRET;
-const yelpTokenSecret = process.env.YELP_TOKEN_SECRET;
-const facebookToken = process.env.FB_PAGE_ACCESS_TOKEN;
+const yelpTokenSecret = process.env.YELP_TOKEN_SECRET
+const yelpConsumerSecret = process.env.YELP_CONSUMER_SECRET
+const facebookToken = process.env.FB_PAGE_ACCESS_TOKEN
 
 //Yelp
 var yelp = new Yelp({
@@ -79,8 +79,9 @@ function sendTextMessage(sender, text) {
 }
 
 function testSearch(){
-}
 
+
+}
 
 
 
