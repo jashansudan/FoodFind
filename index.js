@@ -81,7 +81,7 @@ function sendTextMessage(sender, text) {
 
 function yelpQuery(sender, message) {
 
-	yelp.search(message)
+	yelp.search(JSON.parse(message))
 .then(function (data) {
   console.log(data);
   sendTextMessage(sender, data.businesses[0].name);
