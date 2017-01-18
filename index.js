@@ -81,10 +81,10 @@ function sendTextMessage(sender, text) {
 
 function testSearch(sender, message) {
 
-	yelp.search({ term: 'food', location: 'Montreal' })
+	yelp.search({ term: 'yelp', location: 'sf', limit: 1 })
 .then(function (data) {
   console.log(data);
-  sendTextMessage(sender, "Text received, echo: " + message + data.business[0].name);
+  sendTextMessage(sender, "Text received, echo: " + message + data.businesses[0].name);
 
 })
 .catch(function (err) {
