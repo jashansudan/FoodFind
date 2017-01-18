@@ -79,12 +79,12 @@ function sendTextMessage(sender, text) {
     })
 }
 
-function testSearch(sender, message ) {
+function testSearch(sender, message) {
 
 	yelp.search({ term: 'food', location: 'Montreal' })
 .then(function (data) {
   console.log(data);
-  sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200) + data.business[0].name);
+  sendTextMessage(sender, "Text received, echo: " + message + data.business[0].name);
 
 })
 .catch(function (err) {
