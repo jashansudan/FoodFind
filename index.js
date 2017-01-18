@@ -62,7 +62,7 @@ app.post('/webhook/', function (req, res) {
 
 //Query yelp with your message
 function yelpQuery(sender, message) {
-    var messageObj = JSON.parse(message);
+    // {term: 'yelp', location: 'sf', limit: 1}
     yelp.search({ term: 'yelp', location: 'sf', limit: 1 }).then(function (data) {
         console.log(data);
         sendTextMessage(sender,  data.businesses[0].name);
@@ -92,7 +92,7 @@ function sendTextMessage(sender, text) {
     })
 }
 
-//test query: { term: 'yelp', location: 'sf', limit: 1 }
+//test query: {term: 'yelp', location: 'sf', limit: 1}
 
 
 
