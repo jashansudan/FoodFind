@@ -52,7 +52,7 @@ app.post('/webhook/', function (req, res) {
         let sender = event.sender.id
         if (event.message && event.message.text) {
             let text = event.message.text
-            testSearch(sender, "test " + text.substring(0, 200))
+            yelpQuery(sender, text.substring(0, 200))
             //sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
         }
     }
@@ -79,12 +79,12 @@ function sendTextMessage(sender, text) {
     })
 }
 
-function testSearch(sender, message) {
+function yelpQuery(sender, message) {
 
-	yelp.search({ term: 'yelp', location: 'sf', limit: 1 })
+	yelp.search(message)
 .then(function (data) {
   console.log(data);
-  sendTextMessage(sender, "Text received, echo: " + message + data.businesses[0].name);
+  sendTextMessage(sender, data.businesses[0].name);
 
 })
 .catch(function (err) {
@@ -93,6 +93,7 @@ function testSearch(sender, message) {
 
 }
 
+//test query: { term: 'yelp', location: 'sf', limit: 1 }
 
 
 
