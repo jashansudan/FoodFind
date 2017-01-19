@@ -66,13 +66,19 @@ function yelpQuery(sender, message) {
     var query = parseInput(message);
     yelp.search(query).then(function (data) {
         console.log(data);
-        for (var i = 0; i < data.businesses.length; i++){
-            sendTextMessage(sender,  data.businesses[i].name);
-        }
+        checkBeforeSending(data);
     })
     .catch(function (err) {
     console.log(err);
     });
+}
+
+function checkBeforeSending(data){
+    for (var i = 0; i < data.businesses.length; i++){
+            if (data.businesses[i].rating > 3.6){
+                sendTextMessage(sender,  data.businesses[i].name);
+            }
+        }
 }
 
 // Echo back messages
