@@ -64,7 +64,7 @@ app.post('/webhook/', function (req, res) {
 function yelpQuery(sender, message) {
     // {term: 'yelp', location: 'sf', limit: 1}
     var query = parseInput(message);
-    yelp.search(query).then(function (data) {
+    yelp.search({ term: 'yelp', location: 'sf', limit: 1 }).then(function (data) {
         console.log(data);
         sendTextMessage(sender,  data.businesses[0].name);
     })
