@@ -66,14 +66,16 @@ function yelpQuery(sender, message) {
     var query = parseInput(message);
     yelp.search(query).then(function (data) {
         console.log(data);
-        checkBeforeSending(data);
+        checkBeforeSending(data, sender);
     })
     .catch(function (err) {
     console.log(err);
     });
 }
 
-function checkBeforeSending(data){
+
+//Itterates through all businesses returned and checks to see if they are worthy (3.6 stars or higher)
+function checkBeforeSending(data, sender){
     for (var i = 0; i < data.businesses.length; i++){
             if (data.businesses[i].rating > 3.6){
                 sendTextMessage(sender,  data.businesses[i].name);
@@ -101,6 +103,7 @@ function sendTextMessage(sender, text) {
     })
 }
 
+//Takes the user input and parses it into a JSON object that can be used to query
 function parseInput(message){
   console.log(message);
   message = message.replace(/\s+/g,"");
