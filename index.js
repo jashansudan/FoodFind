@@ -66,7 +66,9 @@ function yelpQuery(sender, message) {
     var query = parseInput(message);
     yelp.search(query).then(function (data) {
         console.log(data);
-        sendTextMessage(sender,  data.businesses[0].name);
+        for (var i = 0; i < data.businesses[0].length; i++){
+            sendTextMessage(sender,  data.businesses[i].name);
+        }
     })
     .catch(function (err) {
     console.log(err);
