@@ -83,7 +83,7 @@ function checkQualityBeforeSending(data, sender){
                 sendTextMessage(sender,  data.businesses[i].name);
             }
         }
-        askLocation(sender);
+        //askLocation(sender);
 }
 
 // Echo back messages
