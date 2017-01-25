@@ -130,7 +130,6 @@ function validQueryCheck(){
 
 
 function askLocation(sender) {
-    let messageData = { text:text }
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token:facebookToken},
@@ -138,14 +137,14 @@ function askLocation(sender) {
         json: {
             recipient: {id:sender},
             message:{
-        text:"Please share your location:",
-        quick_replies:[
-        {
+    text:"Please share your location:",
+    quick_replies:[
+      {
         content_type:"location",
       }
     ]
-  }
-}
+  } 
+        }
     }, function(error, response, body) {
         if (error) {
             console.log('Error sending messages: ', error)
