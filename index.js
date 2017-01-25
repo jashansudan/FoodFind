@@ -50,6 +50,8 @@ app.post('/webhook/', function (req, res) {
     for (let i = 0; i < messaging_events.length; i++) {
         let event = req.body.entry[0].messaging[i]
         let sender = event.sender.id
+        sendTextMessage(event.sender)
+
         if (event.message && event.message.text) {
             let text = event.message.text
             yelpQuery(sender, text)
@@ -66,7 +68,7 @@ function yelpQuery(sender, message) {
     var query = parseInput(message);
     yelp.search(query).then(function (data) {
         console.log(data);
-        checkBeforeSending(data, sender);
+        checkQualityBeforeSending(data, sender);
     })
     .catch(function (err) {
     console.log(err);
@@ -75,7 +77,7 @@ function yelpQuery(sender, message) {
 
 
 //Itterates through all businesses returned and checks to see if they are worthy (3.6 stars or higher)
-function checkBeforeSending(data, sender){
+function checkQualityBeforeSending(data, sender){
     for (var i = 0; i < data.businesses.length; i++){
             if (data.businesses[i].rating > 3.6){
                 sendTextMessage(sender,  data.businesses[i].name);
@@ -118,6 +120,12 @@ function parseInput(message){
   console.log(searchObj);
   return searchObj;
 }
+
+
+function validQueryCheck(){
+
+}
+
 
 //test query: {term: 'yelp', location: 'sf', limit: 1}
 
