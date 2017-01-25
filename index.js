@@ -50,7 +50,7 @@ app.post('/webhook/', function (req, res) {
     for (let i = 0; i < messaging_events.length; i++) {
         let event = req.body.entry[0].messaging[i]
         let sender = event.sender.id
-        sendTextMessage(sender, event.sender.id)
+        //sendTextMessage(sender, event.sender.id)
 
         if (event.message && event.message.text) {
             let text = event.message.text
@@ -83,6 +83,7 @@ function checkQualityBeforeSending(data, sender){
                 sendTextMessage(sender,  data.businesses[i].name);
             }
         }
+        askLocation(sender);
 }
 
 // Echo back messages
@@ -126,6 +127,33 @@ function validQueryCheck(){
 
 }
 
+
+
+function askLocation(sender) {
+    let messageData = { text:text }
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token:facebookToken},
+        method: 'POST',
+        json: {
+            recipient: {id:sender},
+            message:{
+        text:"Please share your location:",
+        quick_replies:[
+        {
+        content_type:"location",
+      }
+    ]
+  }
+}
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending messages: ', error)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
+    })
+}
 
 //test query: {term: 'yelp', location: 'sf', limit: 1}
 
