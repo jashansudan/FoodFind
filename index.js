@@ -129,30 +129,30 @@ function validQueryCheck(){
 
 
 
-function askLocation(sender) {
-    request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token:facebookToken},
-        method: 'POST',
-        json: {
-            recipient: {id:sender},
-            message:{
-    text:"Please share your location:",
-    quick_replies:[
-      {
-        content_type:"location",
-      }
-    ]
-  } 
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log('Error sending messages: ', error)
-        } else if (response.body.error) {
-            console.log('Error: ', response.body.error)
-        }
-    })
-}
+// function askLocation(sender) {
+//     request({
+//         url: 'https://graph.facebook.com/v2.6/me/messages',
+//         qs: {access_token:facebookToken},
+//         method: 'POST',
+//         json: {
+//             recipient: {id:sender},
+//             message:{
+//     text:"Please share your location:",
+//     quick_replies:[
+//       {
+//         content_type:"location",
+//       }
+//     ]
+//   } 
+//         }
+//     }, function(error, response, body) {
+//         if (error) {
+//             console.log('Error sending messages: ', error)
+//         } else if (response.body.error) {
+//             console.log('Error: ', response.body.error)
+//         }
+//     })
+// }
 
 //test query: {term: 'yelp', location: 'sf', limit: 1}
 
