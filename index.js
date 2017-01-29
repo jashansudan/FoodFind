@@ -78,12 +78,12 @@ function queryYelp(sender, message) {
 function checkBussinessRatingBeforeSending(data, sender){
     for (var i = 0; i < data.businesses.length; i++){
             if (data.businesses[i].rating > 3.6){
-                sendTextMessage(sender,  data.businesses[i].name);
+                sendMessengerCard(sender,  data);
             }
         }
 }
 
-// Echo back messages
+// Sends a message to the user
 function sendTextMessage(sender, text) {
     let messageData = { text:text }
     request({
@@ -103,6 +103,50 @@ function sendTextMessage(sender, text) {
     })
 }
 
+// Sends a card message back to the user
+function sendMessengerCard(sender, data) {
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token:facebookToken},
+        method: 'POST',
+        json: {
+              "recipient": {"id":sender},
+              "message":{
+                "attachment":{
+                  "type":"template",
+                  "payload":{
+                    "template_type":"generic",
+                    "elements":[
+                       {
+                        "title":data.businesses[i].name,
+                        "image_url":data.businesses[i].image_url,
+                        "default_action": {
+                          "type": "web_url",
+                          "url": data.businesses[i].mobile_url,
+                          "webview_height_ratio": "tall"
+                        },
+                        "buttons":[
+                          {
+                            "type":"web_url",
+                            "url":data.businesses[i].mobile_url,
+                            "title":"View Website"
+                          }     
+                        ]      
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending messages: ', error)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
+    })
+}
+
 
 function searchWithOnlyLocation(message){
     var searchQuery = {term: "food", limit: 5};
@@ -111,6 +155,7 @@ function searchWithOnlyLocation(message){
 }
 
 //Takes the user input and parses it into a JSON object that can be used to query
+//Currently not being used and searchWithOnlyLocation is being used.
 function parseInput(message){
   console.log(message);
   message = message.replace(/\s+/g,"");
