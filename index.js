@@ -52,7 +52,7 @@ app.post('/webhook/', function (req, res) {
         let sender = event.sender.id
         if (event.message && event.message.text) {
             let text = event.message.text
-            yelpQuery(sender, text)
+            queryYelp(sender, text)
             //sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
         }
     }
@@ -61,12 +61,12 @@ app.post('/webhook/', function (req, res) {
 
 
 //Query yelp with your message
-function yelpQuery(sender, message) {
+function queryYelp(sender, message) {
     // {term: 'yelp', location: 'sf', limit: 1}
-    var query = parseInput(message);
+    var query = searchWithOnlyLocation(message);
     yelp.search(query).then(function (data) {
         console.log(data);
-        checkQualityBeforeSending(data, sender);
+        checkBussinessRatingBeforeSending(data, sender);
     })
     .catch(function (err) {
     console.log(err);
@@ -75,7 +75,7 @@ function yelpQuery(sender, message) {
 
 
 //Itterates through all businesses returned and checks to see if they are worthy (3.6 stars or higher)
-function checkQualityBeforeSending(data, sender){
+function checkBussinessRatingBeforeSending(data, sender){
     for (var i = 0; i < data.businesses.length; i++){
             if (data.businesses[i].rating > 3.6){
                 sendTextMessage(sender,  data.businesses[i].name);
@@ -101,6 +101,13 @@ function sendTextMessage(sender, text) {
             console.log('Error: ', response.body.error)
         }
     })
+}
+
+
+function searchWithOnlyLocation(message){
+    var searchQuery = {term: "food", limit: 5};
+    searchQuery["location"] = message;
+    return searchObj;
 }
 
 //Takes the user input and parses it into a JSON object that can be used to query
