@@ -63,10 +63,10 @@ app.post('/webhook/', function (req, res) {
 //Query yelp with your message
 function yelpQuery(sender, message) {
     // {term: 'yelp', location: 'sf', limit: 1}
-    var query = parseInput(message);
+    var query = searchWithOnlyLocation(message);
     yelp.search(query).then(function (data) {
         console.log(data);
-        checkQualityBeforeSending(data, sender);
+        checkBussinessRatingBeforeSending(data, sender);
     })
     .catch(function (err) {
     console.log(err);
@@ -75,7 +75,7 @@ function yelpQuery(sender, message) {
 
 
 //Itterates through all businesses returned and checks to see if they are worthy (3.6 stars or higher)
-function checkQualityBeforeSending(data, sender){
+function checkBussinessRatingBeforeSending(data, sender){
     for (var i = 0; i < data.businesses.length; i++){
             if (data.businesses[i].rating > 3.6){
                 sendTextMessage(sender,  data.businesses[i].name);
@@ -103,21 +103,31 @@ function sendTextMessage(sender, text) {
     })
 }
 
-//Takes the user input and parses it into a JSON object that can be used to query
-function parseInput(message){
-  console.log(message);
-  message = message.replace(/\s+/g,"");
-  var searchParameters = message.split(",");
-  var searchObj = {}
-  for(var i = 0; i < searchParameters.length; i++){
-    var temp = searchParameters[i].split(":");
-    var key = temp[0];
-    var value = temp[1];
-    searchObj[key] = value;
-  }
-  console.log(searchObj);
-  return searchObj;
+
+function searchWithOnlyLocation(message){
+    var searchQuery = {term: "food", limit: 5};
+    searchQuery[location] = message;
+    return searchObj;
 }
+
+
+
+
+//Takes the user input and parses it into a JSON object that can be used to query
+// function parseInput(message){
+//   console.log(message);
+//   message = message.replace(/\s+/g,"");
+//   var searchParameters = message.split(",");
+//   var searchObj = {}
+//   for(var i = 0; i < searchParameters.length; i++){
+//     var temp = searchParameters[i].split(":");
+//     var key = temp[0];
+//     var value = temp[1];
+//     searchObj[key] = value;
+//   }
+//   console.log(searchObj);
+//   return searchObj;
+// }
 
 
 function validQueryCheck(){
