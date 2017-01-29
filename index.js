@@ -134,6 +134,7 @@ function convertToSendable(data) {
             elements:[
                {
                 title: data.name,
+                subtitle: "Rating: " + data.rating,
                 image_url: data.image_url,
                 default_action: {
                   type: "web_url",
