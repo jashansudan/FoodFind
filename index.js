@@ -78,7 +78,7 @@ function queryYelp(sender, message) {
 function checkBussinessRatingBeforeSending(data, sender){
     for (let i = 0; i < data.businesses.length; i++){
             if (data.businesses[i].rating > 3.6){
-                sendMessengerCard(sender,  data);
+                sendTextMessage(sender,  data.businesses[i].name);
             }
         }
 }
