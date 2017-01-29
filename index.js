@@ -140,7 +140,10 @@ function sendMessengerCard(sender, data) {
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token:facebookToken},
         method: 'POST',
-        json: data
+        json: {
+              recipient: {id:sender},
+              message: card
+            }
     }, function(error, response, body) {
         if (error) {
             console.log('Error sending messages: ', error)
