@@ -140,14 +140,7 @@ function convertToSendable(data) {
                   type: "web_url",
                   url: data.mobile_url,
                   webview_height_ratio: "tall"
-                },
-                buttons:[
-                  {
-                    type:"web_url",
-                    url:data.mobile_url,
-                    title:"View Website"
-                  }     
-                ]      
+                }   
               }
             ]
           }
