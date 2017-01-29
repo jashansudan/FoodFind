@@ -52,7 +52,7 @@ app.post('/webhook/', function (req, res) {
         let sender = event.sender.id
         if (event.message && event.message.text) {
             let text = event.message.text
-            yelpQuery(sender, text)
+            queryYelp(sender, text)
             //sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
         }
     }
@@ -61,9 +61,9 @@ app.post('/webhook/', function (req, res) {
 
 
 //Query yelp with your message
-function yelpQuery(sender, message) {
+function queryYelp(sender, message) {
     // {term: 'yelp', location: 'sf', limit: 1}
-    var query = searchWithOnlyLocation(message);
+    var query = parseInput(message);
     yelp.search(query).then(function (data) {
         console.log(data);
         checkBussinessRatingBeforeSending(data, sender);
@@ -114,20 +114,21 @@ function searchWithOnlyLocation(message){
 
 
 //Takes the user input and parses it into a JSON object that can be used to query
-// function parseInput(message){
-//   console.log(message);
-//   message = message.replace(/\s+/g,"");
-//   var searchParameters = message.split(",");
-//   var searchObj = {}
-//   for(var i = 0; i < searchParameters.length; i++){
-//     var temp = searchParameters[i].split(":");
-//     var key = temp[0];
-//     var value = temp[1];
-//     searchObj[key] = value;
-//   }
-//   console.log(searchObj);
-//   return searchObj;
-// }
+//Currently not being used, trying different usability. 
+function parseInput(message){
+  console.log(message);
+  message = message.replace(/\s+/g,"");
+  var searchParameters = message.split(",");
+  var searchObj = {}
+  for(var i = 0; i < searchParameters.length; i++){
+    var temp = searchParameters[i].split(":");
+    var key = temp[0];
+    var value = temp[1];
+    searchObj[key] = value;
+  }
+  console.log(searchObj);
+  return searchObj;
+}
 
 
 function validQueryCheck(){
