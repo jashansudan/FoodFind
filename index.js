@@ -63,7 +63,7 @@ app.post('/webhook/', function (req, res) {
 //Query yelp with your message
 function queryYelp(sender, message) {
     // {term: 'yelp', location: 'sf', limit: 1}
-    var query = searchWithOnlyLocation(message);
+    let query = searchWithOnlyLocation(message);
     yelp.search(query).then(function (data) {
         console.log(data);
         checkBussinessRatingBeforeSending(data, sender);
@@ -76,7 +76,7 @@ function queryYelp(sender, message) {
 
 //Itterates through all businesses returned and checks to see if they are worthy (3.6 stars or higher)
 function checkBussinessRatingBeforeSending(data, sender){
-    for (var i = 0; i < data.businesses.length; i++){
+    for (let i = 0; i < data.businesses.length; i++){
             if (data.businesses[i].rating > 3.6){
                 sendMessengerCard(sender,  data);
             }
@@ -135,7 +135,7 @@ function convertToSendable(data) {
 
 // Sends a card message back to the user
 function sendMessengerCard(sender, data) {
-    var card = convertToSendable(data);
+    let card = convertToSendable(data);
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token:facebookToken},
@@ -153,24 +153,25 @@ function sendMessengerCard(sender, data) {
     })
 }
 
-
+// Sets predfined queries and simply takes the users location to produce outputs
 function searchWithOnlyLocation(message){
-    var searchQuery = {term: "food", limit: 5};
+    let searchQuery = {term: "food", limit: 5};
     searchQuery["location"] = message;
     return searchQuery;
 }
+
 
 //Takes the user input and parses it into a JSON object that can be used to query
 //Currently not being used and searchWithOnlyLocation is being used.
 function parseInput(message){
   console.log(message);
   message = message.replace(/\s+/g,"");
-  var searchParameters = message.split(",");
-  var searchObj = {}
-  for(var i = 0; i < searchParameters.length; i++){
-    var temp = searchParameters[i].split(":");
-    var key = temp[0];
-    var value = temp[1];
+  let searchParameters = message.split(",");
+  let searchObj = {}
+  for(let i = 0; i < searchParameters.length; i++){
+    let temp = searchParameters[i].split(":");
+    let key = temp[0];
+    let value = temp[1];
     searchObj[key] = value;
   }
   console.log(searchObj);
@@ -178,6 +179,8 @@ function parseInput(message){
 }
 
 
+
+// TODO: Check if the user's query is valid
 function validQueryCheck(){
 
 }
