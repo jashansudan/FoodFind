@@ -110,26 +110,26 @@ function sendMessengerCard(sender, data) {
         qs: {access_token:facebookToken},
         method: 'POST',
         json: {
-              "recipient": {"id":sender},
-              "message":{
-                "attachment":{
-                  "type":"template",
-                  "payload":{
-                    "template_type":"generic",
-                    "elements":[
+              recipient: {"id":sender},
+              message:{
+                attachment:{
+                  type:"template",
+                  payload:{
+                    template_type:"generic",
+                    elements:[
                        {
-                        "title":data.businesses[i].name,
-                        "image_url":data.businesses[i].image_url,
-                        "default_action": {
-                          "type": "web_url",
-                          "url": data.businesses[i].mobile_url,
-                          "webview_height_ratio": "tall"
+                        title:data.businesses[i].name,
+                        image_url:data.businesses[i].image_url,
+                        default_action: {
+                          type: "web_url",
+                          url: data.businesses[i].mobile_url,
+                          webview_height_ratio: "tall"
                         },
-                        "buttons":[
+                        buttons:[
                           {
-                            "type":"web_url",
-                            "url":data.businesses[i].mobile_url,
-                            "title":"View Website"
+                            type:"web_url",
+                            url:data.businesses[i].mobile_url,
+                            title:"View Website"
                           }     
                         ]      
                       }
