@@ -78,7 +78,7 @@ function queryYelp(sender, message) {
 function checkBussinessRatingBeforeSending(data, sender){
     for (let i = 0; i < data.businesses.length; i++){
             if (data.businesses[i].rating > 3.6){
-                sendMessengerCard(sender,  data, i);
+                sendMessengerCard(sender,  data.businesses[i]);
             }
         }
 }
@@ -104,40 +104,9 @@ function sendTextMessage(sender, text) {
 }
 
 
-//Missing the [i] lol
-function convertToSendable(data, i) {
-    let messageData = {
-        attachment:{
-          type:"template",
-          payload:{
-            template_type:"generic",
-            elements:[
-               {
-                title: data.businesses[i].name,
-                image_url: data.businesses[i].image_url,
-                default_action: {
-                  type: "web_url",
-                  url: data.businesses[i].mobile_url,
-                  webview_height_ratio: "tall"
-                },
-                buttons:[
-                  {
-                    type:"web_url",
-                    url:data.businesses[i].mobile_url,
-                    title:"View Website"
-                  }     
-                ]      
-              }
-            ]
-          }
-        }
-    }
-    return messageData;
-}
-
 // Sends a card message back to the user
-function sendMessengerCard(sender, data, i) {
-    let card = convertToSendable(data, i);
+function sendMessengerCard(sender, data) {
+    let card = convertToSendable(data);
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token:facebookToken},
@@ -153,6 +122,37 @@ function sendMessengerCard(sender, data, i) {
             console.log('Error: ', response.body.error)
         }
     })
+}
+
+//Missing the [i] lol
+function convertToSendable(data) {
+    let messageData = {
+        attachment:{
+          type:"template",
+          payload:{
+            template_type:"generic",
+            elements:[
+               {
+                title: data.name,
+                image_url: data.image_url,
+                default_action: {
+                  type: "web_url",
+                  url: data.mobile_url,
+                  webview_height_ratio: "tall"
+                },
+                buttons:[
+                  {
+                    type:"web_url",
+                    url:data.mobile_url,
+                    title:"View Website"
+                  }     
+                ]      
+              }
+            ]
+          }
+        }
+    }
+    return messageData;
 }
 
 // Sets predfined queries and simply takes the users location to produce outputs
