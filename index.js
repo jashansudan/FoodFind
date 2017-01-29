@@ -110,7 +110,7 @@ function sendMessengerCard(sender, data) {
         qs: {access_token:facebookToken},
         method: 'POST',
         json: {
-              recipient: {"id":sender},
+              recipient: {id:sender},
               message:{
                 attachment:{
                   type:"template",
