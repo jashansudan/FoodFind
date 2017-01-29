@@ -78,7 +78,7 @@ function queryYelp(sender, message) {
 function checkBussinessRatingBeforeSending(data, sender){
     for (let i = 0; i < data.businesses.length; i++){
             if (data.businesses[i].rating > 3.6){
-                sendTextMessage(sender,  data.businesses[i].name);
+                sendMessengerCard(sender,  data, i);
             }
         }
 }
@@ -103,7 +103,9 @@ function sendTextMessage(sender, text) {
     })
 }
 
-function convertToSendable(data) {
+
+//Missing the [i] lol
+function convertToSendable(data, i) {
     let messageData = {
         attachment:{
           type:"template",
@@ -134,8 +136,8 @@ function convertToSendable(data) {
 }
 
 // Sends a card message back to the user
-function sendMessengerCard(sender, data) {
-    let card = convertToSendable(data);
+function sendMessengerCard(sender, data, i) {
+    let card = convertToSendable(data, i);
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token:facebookToken},
