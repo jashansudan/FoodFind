@@ -103,41 +103,44 @@ function sendTextMessage(sender, text) {
     })
 }
 
+function convertToSendable(data) {
+    let messageData = {
+        attachment:{
+          type:"template",
+          payload:{
+            template_type:"generic",
+            elements:[
+               {
+                title: data.businesses[i].name,
+                image_url: data.businesses[i].image_url,
+                default_action: {
+                  type: "web_url",
+                  url: data.businesses[i].mobile_url,
+                  webview_height_ratio: "tall"
+                },
+                buttons:[
+                  {
+                    type:"web_url",
+                    url:data.businesses[i].mobile_url,
+                    title:"View Website"
+                  }     
+                ]      
+              }
+            ]
+          }
+        }
+    }
+    return messageData;
+}
+
 // Sends a card message back to the user
 function sendMessengerCard(sender, data) {
+    var card = convertToSendable(data);
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token:facebookToken},
         method: 'POST',
-        json: {
-              recipient: {id:sender},
-              message:{
-                attachment:{
-                  type:"template",
-                  payload:{
-                    template_type:"generic",
-                    elements:[
-                       {
-                        title:data.businesses[i].name,
-                        image_url:data.businesses[i].image_url,
-                        default_action: {
-                          type: "web_url",
-                          url: data.businesses[i].mobile_url,
-                          webview_height_ratio: "tall"
-                        },
-                        buttons:[
-                          {
-                            type:"web_url",
-                            url:data.businesses[i].mobile_url,
-                            title:"View Website"
-                          }     
-                        ]      
-                      }
-                    ]
-                  }
-                }
-              }
-            }
+        json: data
     }, function(error, response, body) {
         if (error) {
             console.log('Error sending messages: ', error)
