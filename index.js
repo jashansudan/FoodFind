@@ -107,8 +107,8 @@ function sendTextMessage(sender, text) {
 function searchWithOnlyLocation(message){
     var searchQuery = {term: "food", limit: 5};
     searchQuery["location"] = message;
-    return searchObj;
-}}
+    return searchQuery;
+}
 
 //Takes the user input and parses it into a JSON object that can be used to query
 function parseInput(message){
