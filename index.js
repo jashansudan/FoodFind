@@ -52,7 +52,8 @@ app.post('/webhook/', function (req, res) {
         let sender = event.sender.id;
         if (event.message && event.message.text) {
             let text = event.message.text;
-            queryYelp(sender, text);
+            requestLocation(sender);
+            //queryYelp(sender, text);
             //sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
         }
     }
@@ -130,6 +131,33 @@ function convertToSendable(data) {
         }
     }
     return messageData;
+}
+
+
+function requestLocation(sender){
+  let message = {
+    "text":"Please share your location:",
+    "quick_replies":[
+      {
+        "content_type":"location",
+      }
+    ]
+  }
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token:facebookToken},
+        method: 'POST',
+        json: {
+              recipient: {id:sender},
+              message: message
+            }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending messages: ', error)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
+    })
 }
 
 // Sends a message to the user, requires more specific input in the text field
