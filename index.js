@@ -52,7 +52,7 @@ app.post('/webhook/', function (req, res) {
         let sender = event.sender.id;
         if (event.message && event.message.text) {
             let text = event.message.text;
-            requestLocation(sender);
+            parseLocation(sender, text);
             //queryYelp(sender, text);
             //sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
         }
@@ -143,21 +143,21 @@ function requestLocation(sender){
       }
     ]
   }
-    request({
-        url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token:facebookToken},
-        method: 'POST',
-        json: {
-              recipient: {id:sender},
-              message: message
-            }
-    }, function(error, response, body) {
-        if (error) {
-            console.log('Error sending messages: ', error)
-        } else if (response.body.error) {
-            console.log('Error: ', response.body.error)
-        }
-    })
+  request({
+      url: 'https://graph.facebook.com/v2.6/me/messages',
+      qs: {access_token:facebookToken},
+      method: 'POST',
+      json: {
+            recipient: {id:sender},
+            message: message
+          }
+  }, function(error, response, body) {
+      if (error) {
+          console.log('Error sending messages: ', error)
+      } else if (response.body.error) {
+          console.log('Error: ', response.body.error)
+      }
+  })
 }
 
 // Sends a message to the user, requires more specific input in the text field
@@ -182,11 +182,30 @@ function sendTextMessage(sender, text) {
 }
 
 
+function  parseLocation(sender, message){
+  let lat = message[attachments][0][payload][lat];
+  let long = message[attachments][0][payload][lat];
+  let messageData = { text:"Your lat is " + lat + "Your long is: " + long }
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: {access_token:facebookToken},
+        method: 'POST',
+        json: {
+            recipient: {id:sender},
+            message: messageData,
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending messages: ', error);
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error);
+        }
+    })
+}
 
 //Takes the user input and parses it into a JSON object that can be used to query
 //Currently not being used and searchWithOnlyLocation is being used.
 function parseInput(message){
-  console.log(message);
   message = message.replace(/\s+/g,"");
   let searchParameters = message.split(",");
   let searchObj = {}
