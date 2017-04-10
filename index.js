@@ -51,7 +51,7 @@ app.post('/webhook/', function (req, res) {
         let event = req.body.entry[0].messaging[i];
         let sender = event.sender.id;
         if (event.message) {
-            let text = event.message.text;
+            let text = event.message;
             parseLocation(sender, text);
             //queryYelp(sender, text);
             //sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
