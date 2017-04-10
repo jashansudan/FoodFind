@@ -185,8 +185,8 @@ function sendTextMessage(sender, text) {
 function  parseLocation(sender, message){
   let lat = message[attachments][0][payload][coordinates][lat];
   let long = message[attachments][0][payload][coordinates][long];
-  let text = "Your lat is " + lat + "Your long is: " + long;
-  let messageData = { text:text}
+  let textInfo = "Your lat is " + lat + "Your long is: " + long;
+  let messageData = { text:textInfo}
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token:facebookToken},
