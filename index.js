@@ -50,9 +50,9 @@ app.post('/webhook/', function (req, res) {
     for (let i = 0; i < messaging_events.length; i++) {
         let event = req.body.entry[0].messaging[i];
         let sender = event.sender.id;
-        if (event.message) {
-            let text = event.message;
-            parseLocation(sender, text);
+        if (event.message && event.message.mid) {
+            let coordinates = event.message.attachments[0].payload.coordinates;
+            parseLocation(sender, coordinates);
             //queryYelp(sender, text);
             //sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
         }
@@ -182,11 +182,11 @@ function sendTextMessage(sender, text) {
 }
 
 
-function  parseLocation(sender, message){
-  let lat = message[attachments][0][payload][coordinates][lat];
-  let long = message[attachments][0][payload][coordinates][long];
+function  parseLocation(sender, coordinates){
+  let lat = coordinates.lat;
+  let long = coordinates.long
   let textInfo = "Your lat is " + lat + "Your long is: " + long;
-  let messageData = { text:textInfo}
+  let messageData = { text:textinfo}
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token:facebookToken},
