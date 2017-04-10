@@ -184,9 +184,9 @@ function sendTextMessage(sender, text) {
 
 function  parseLocation(sender, coordinates){
   let lat = coordinates.lat;
-  let long = coordinates.long
-  let textInfo = "Your lat is " + lat + "Your long is: " + long;
-  let messageData = { text:textinfo}
+  let long = coordinates.long;
+  let textInfo = "response";
+  let messageData = { text:textinfo};
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {access_token:facebookToken},
