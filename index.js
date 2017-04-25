@@ -52,8 +52,8 @@ app.post('/webhook/', function (req, res) {
         let sender = event.sender.id;
         if (event.message && event.message.attachments[0].payload.coordinates) {
             let lat = event.message.attachments[0].payload.coordinates.lat;
-            let long = event.message.attachments[0].payload.coordinates.long;
-            sendTextMessage(sender, "Your lat is " + lat + "Your long is " + long);
+            //let long = event.message.attachments[0].payload.coordinates.long;
+            sendTextMessage(sender, "Your lat is " + lat);
 
             //queryYelp(sender, text);
             //sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200));
