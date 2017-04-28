@@ -53,6 +53,9 @@ app.post('/webhook/', function (req, res) {
         if (event.message && event.message.text) {
             sendTextMessage(sender, "Your lat is ");
         }
+        else {
+          requestLocation(sender)
+        }
     }
     res.sendStatus(200);
 })
