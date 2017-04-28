@@ -50,9 +50,8 @@ app.post('/webhook/', function (req, res) {
     for (let i = 0; i < messaging_events.length; i++) {
         let event = req.body.entry[0].messaging[i];
         let sender = event.sender.id;
-        if (event.message && event.message.attachments[0].payload.coordinates.lat) {
-            let lat = event.message.attachments[0].payload.coordinates.lat;
-            sendTextMessage(sender, "Your lat is " + lat);
+        if (event.message && event.message.text) {
+            sendTextMessage(sender, "Your lat is ");
         }
     }
     res.sendStatus(200);
