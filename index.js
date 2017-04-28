@@ -52,7 +52,7 @@ app.post('/webhook/', function (req, res) {
         let sender = event.sender.id;
         if (event.message && event.message.text) {
           let location = event.message.text;
-          queryYelp(sender, location);
+          queryYelp(sender,location);
         }
     }
     res.sendStatus(200);
