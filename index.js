@@ -51,8 +51,8 @@ app.post('/webhook/', function (req, res) {
         let event = req.body.entry[0].messaging[i];
         let sender = event.sender.id;
         if (event.message && event.message.attachments[0].payload) {
-          let lat = event.message.attachments[0].payload.coordinates.lat;
-          sendTextMessage(sender, "Your lat is " + lat);
+          let long = event.message.attachments[0].payload.coordinates.long;
+          sendTextMessage(sender, "Your long is " + long);
         }
         else if (event.message && event.message.text){
           requestLocation(sender)
